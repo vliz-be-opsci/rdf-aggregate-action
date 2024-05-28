@@ -11,6 +11,9 @@ G = Graph()
 for glb, fmt in GLOBS.items():
     for p in GITHUB_WORKSPACE.rglob(glb):
         if p.is_file():
-            G.parse(p, format=fmt)
+            try:
+                G.parse(p, format=fmt)
+            except Exception as e:
+                print(f"failed to parse {p}: {e}")
 
 G.serialize(GITHUB_WORKSPACE / "all-triples.ttl", format="ttl")
